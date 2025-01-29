@@ -1,9 +1,8 @@
 # Internet Radio
 
 Here we describe the design, construction, programming and operation of an internet radio with a minimal one button interface based on a Raspberry Pi.
-THis is a relatively minor variation to WifiRadio2 (availabl ein this repository).
-It uses a smaller older type of RAspberry Pi.
-The setup is is more carefully documented.
+This is a relatively minor variation to WifiRadio2 (also available in this repository).
+It uses a smaller older type of Raspberry Pi with the setup is more comprehensively documented.
 There is a new 3D printed case that encompasses both the Raspberry Pi and the interface circuit board.
 
 There are 7 available radio stations. One scrolls through them by successively pressing the tactile switch. The station number selected is diplayed in binary by three red 5mm LEDs. When all three LEDs are off then no station is playing (number 0). When the radio is powered off (by removing power to the Raspberry Pi) the currently streaming station is saved so that when the radio is powered on later that station resumes streaming.
