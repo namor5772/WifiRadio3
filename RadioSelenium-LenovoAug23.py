@@ -164,7 +164,6 @@ def Radio1(br,Num,sPath):
     else:
         fe3 = "No item playing"
         print(fe3)
-        
     time.sleep(3)
 
 
@@ -202,8 +201,6 @@ def Radio2(br,Num,sPath):
     else:
         fe3 = "No item playing"
         print(fe3)
-    
-
     time.sleep(3)
 
 
@@ -235,15 +232,21 @@ def Radio3(br,Num,sPath):
     # Find song details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
+    
+    fe = soup.find(attrs={"class": "view-live-now popup"})
+    if fe is not None:
+        fe2 = fe.get_text(separator="*", strip=True)
+        fe3 = fe2.split("*")
+        print(fe3[0])
+        
     fe = soup.find(attrs={"class": "playingNow"})
     if fe is not None:
         fe2 = fe.get_text(separator="*", strip=True)
         fe3 = fe2.split("*")
         print(fe3)
     else:
-        fe3 = "No item playing"
+        fe3 = "No specific item playing"
         print(fe3)
-    
     time.sleep(3)
 
 
@@ -300,7 +303,6 @@ def ABC_radio2(br,sPath):
     be.send_keys(Keys.SHIFT,Keys.TAB)
     be.send_keys(Keys.TAB)
     be.send_keys(Keys.TAB)
-
     time.sleep(1)
 
     # Find song details
@@ -310,11 +312,10 @@ def ABC_radio2(br,sPath):
     if fe is not None:
         fe2 = fe.get_text(separator="*", strip=True)
         fe3 = fe2.split("*")
-        print(fe3)
     else:
         fe3 = "No item playing"
-        print(fe3)
-
+    print(fe3)
+    time.sleep(3)
     
     
 def ABC_radio3(br,Num,sPath):
@@ -328,6 +329,20 @@ def ABC_radio3(br,Num,sPath):
     be.send_keys(Keys.ENTER)
     be.send_keys(Keys.TAB)
     be.send_keys(Keys.TAB)
+    time.sleep(1)
+
+# Find song details
+    ht = be.get_attribute('innerHTML')
+    soup = BeautifulSoup(ht, 'lxml')
+    fe = soup.find(attrs={"class": "LiveAudioPlayer_body__y6nYe"})
+    if fe is not None:
+        fe2 = fe.get_text(separator="*", strip=True)
+        fe3 = fe2.split("*")
+    else:
+        fe3 = "No item playing"
+    print(fe3)
+    time.sleep(3)
+
 
 def iHeart(br,sPath):
  #   print(inspect.stack()[1].function)
@@ -482,7 +497,11 @@ def smooth_relax():
 # 2D array of radio station information in [short name, long name, url] format
 # clearly this can be varied if you wish to listen to different 7 stations
 aStation = [
+# 53 + 31 = 84
+
     ["ABC Radio SYDNEY",ABC_Radio_SYDNEY],
+    # ALL LOCAL ABC STATIONS - 52 + above
+    
     ["ABC NewsRadio",ABC_NewsRadio],
 
     ["ABC Radio National LIVE",ABC_Radio_National_LIVE],
@@ -491,6 +510,25 @@ aStation = [
     ["ABC Radio National SA",ABC_Radio_National_SA],
     ["ABC Radio National NT",ABC_Radio_National_NT],
     
+#ABC SPORT
+#ABC SPORT EXTRA
+#ABC CRICKET    
+    
+    ["ABC triple j LIVE",ABC_triple_j_LIVE],
+    ["ABC triple j QLD",ABC_triple_j_QLD],
+    ["ABC triple j WA",ABC_triple_j_WA],
+    ["ABC triple j SA",ABC_triple_j_SA],
+    ["ABC triple j NT",ABC_triple_j_NT],
+
+    ["ABC triple j Hottest",ABC_triple_j_Hottest],
+    ["ABC triple j Unearthed",ABC_triple_j_Unearthed],
+
+    ["ABC Double j LIVE",ABC_Double_j_LIVE],
+    ["ABC Double j QLD",ABC_Double_j_QLD],
+    ["ABC Double j WA",ABC_Double_j_WA],
+    ["ABC Double j SA",ABC_Double_j_SA],
+    ["ABC Double j NT",ABC_Double_j_NT],
+
     ["ABC Classic LIVE",ABC_Classic_LIVE],
     ["ABC Classic QLD",ABC_Classic_QLD],
     ["ABC Classic WA",ABC_Classic_WA],
@@ -499,71 +537,30 @@ aStation = [
     
     ["ABC Classic2",ABC_Classic2],
     ["ABC Jazz",ABC_Jazz],
-    
-    ["ABC triple j LIVE",ABC_triple_j_LIVE],
-    ["ABC triple j QLD",ABC_triple_j_QLD],
-    ["ABC triple j WA",ABC_triple_j_WA],
-    ["ABC triple j SA",ABC_triple_j_SA],
-    ["ABC triple j NT",ABC_triple_j_NT],
-
-    ["ABC Double j LIVE",ABC_Double_j_LIVE],
-    ["ABC Double j QLD",ABC_Double_j_QLD],
-    ["ABC Double j WA",ABC_Double_j_WA],
-    ["ABC Double j SA",ABC_Double_j_SA],
-    ["ABC Double j NT",ABC_Double_j_NT      ],
-    
-    ["ABC triple j Unearthed",ABC_triple_j_Unearthed],
-    ["ABC triple j Hottest",ABC_triple_j_Hottest],
     ["ABC Country",ABC_Country],
+
+#ABC Kids listen
+    
     ["ABC Radio AUSTRALIA",ABC_Radio_AUSTRALIA]
-]
-'''    
-    ["PBW","ABC NewsRadio","https://live-radio01.mediahubaustralia.com/PBW/mp3/"],
-    ["2FMW","ABC Classic Sydney","https://live-radio01.mediahubaustralia.com/2FMW/mp3/"],
-    ["FM2W","ABC Classic 2","https://live-radio01.mediahubaustralia.com/FM2W/mp3/"],
-    ["WSFM","GOLD 101.7","https://playerservices.streamtheworld.com/api/livestream-redirect/ARN_WSFM.mp3"],
-    ["SMOOTH953","Smooth FM Sydney 95.3","https://playerservices.streamtheworld.com/api/livestream-redirect/SMOOTH953.mp3"]
 ]
 '''
 
 print("Radio stream interface")
 
+#ABC_triple_j_LIVE();
 
-#Suck_ABC(browser,"https://www.abc.net.au/listen/radio");
 
-'''
-ABC_Classic2();
-ABC_Jazz();
-ABC_NewsRadio();
-ABC_Radio_SYDNEY();
-
-'''
 for station in aStation:
     print(f"Station: {station[0]}")
     station[1]();
     time.sleep(5);
 
-''' 
-ABC_Radio_National_LIVE(); time.sleep(10)
-ABC_Radio_National_QLD(); time.sleep(10)
-ABC_Radio_National_WA(); time.sleep(10)
-ABC_Radio_National_SA(); time.sleep(10)
-ABC_Radio_National_NT(); time.sleep(10)
-
-
+'''
 smoothfm_953_Sydney() ;time.sleep(60)
 smooth_relax()        ;time.sleep(60)
 smooth_80s()          ;time.sleep(60)
 smooth_953_Adelaide() ;time.sleep(60)
 smooth_Vintage()      ;time.sleep(60)
-
-
-ABC_Country()             ;time.sleep(15)  
-ABC_Radio_AUSTRALIA()     ;time.sleep(15)
-
-ABC_Radio_SYDNEY()        ;time.sleep(15)
-ABC_NewsRadio()           ;time.sleep(15)
-ABC_Classic_LIVE()        ;time.sleep(15)
 
 
 KIIS1065()
@@ -605,7 +602,6 @@ time.sleep(10)
 _2SER1073()
 time.sleep(10)
 
-ABC_Country()
 '''
 
 
