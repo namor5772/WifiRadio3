@@ -1,8 +1,10 @@
 import subprocess
 import inspect
+import tkinter as tk
+import time
 
+from tkinter import ttk
 from bs4 import BeautifulSoup
-
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
@@ -10,7 +12,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 # Path to Geckodriver executable
 #geckodriver_path = 'C:\\Users\\roman\\OneDrive\\MyImportant\\geckodriver.exe'  # Adjust this path
@@ -87,55 +88,6 @@ def Suck_ABC(br,sPath):
     for _ in range(14):
         be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
-    
-'''
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    
-    be.send_keys(Keys.ENTER)
-
-
-    print("Tag Name:", element_tag_name)
-    print("ID:", element_id)
-    print("Class:", element_class)
-    print("Name:", element_name)
-    print("Value:", element_value)
-    print("Inner HTML:", element_inner_html)
-'''
-
-'''
-    be.send_keys(Keys.ENTER)
-
-    # Use JavaScript to get the currently focused (active) element
-    active_element = br.execute_script("return document.activeElement")
-
-    # Retrieve various attributes of the active element
-    element_tag_name = active_element.tag_name
-    element_id = active_element.get_attribute('id')
-    element_class = active_element.get_attribute('class')
-    element_name = active_element.get_attribute('name')
-    element_value = active_element.get_attribute('value')
-    element_inner_html = active_element.get_attribute('innerHTML')
-
-    print("Tag Name:", element_tag_name)
-    print("ID:", element_id)
-    print("Class:", element_class)
-    print("Name:", element_name)
-    print("Value:", element_value)
-    print("Inner HTML:", element_inner_html)
-'''
 
 
 
@@ -143,111 +95,150 @@ def Suck_ABC(br,sPath):
 # START ***** Functions that stream radio stations *****
 
 def Radio1(br,Num,sPath):
- #   print(inspect.stack()[1].function)
-    br.refresh()
     br.get(sPath)
-    time.sleep(3)
+    time.sleep(1)
     be = br.find_element(By.TAG_NAME, 'body')
     for _ in range(Num):
         be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
     time.sleep(1)
-
- # Find song details
+    # Find song details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
     fe = soup.find(attrs={"class": "playingNow"})
     if fe is not None:
         fe2 = fe.get_text(separator="*", strip=True)
-        fe3 = fe2.split("*")
-        print(fe3)
+        #fe3 = fe2.split("*")
     else:
-        fe3 = "No item playing"
-        print(fe3)
-    time.sleep(3)
+        fe2 = "No item playing"
+    print(fe2)
+    time.sleep(1)
+    return fe2
 
 
 def Radio2(br,Num,sPath):
- #   print(inspect.stack()[1].function)
-    br.refresh()
     br.get(sPath)
-    time.sleep(3)
+    time.sleep(1)
     be = br.find_element(By.TAG_NAME, 'body')
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
+    for _ in range(3):
+        be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.UP)
-    be.send_keys(Keys.UP)
-    be.send_keys(Keys.UP)
-    be.send_keys(Keys.UP)
+    for _ in range(4):
+        be.send_keys(Keys.UP)
     for _ in range(Num):
         be.send_keys(Keys.DOWN)
     be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
+    for _ in range(3):
+        be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
     time.sleep(1)
-
     # Find song details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
     fe = soup.find(attrs={"class": "view-live-now popup"})
     if fe is not None:
         fe2 = fe.get_text(separator="*", strip=True)
-        fe3 = fe2.split("*")
-        print(fe3)
+        #fe3 = fe2.split("*")
     else:
-        fe3 = "No item playing"
-        print(fe3)
+        fe2 = "No item playing"
+    print(fe2)
     time.sleep(3)
+    return fe2
 
 
 def Radio3(br,Num,sPath):
- #   print(inspect.stack()[1].function)
-    br.refresh()
+#    br.refresh()
     br.get(sPath)
-    time.sleep(3)
+    time.sleep(1)
     be = br.find_element(By.TAG_NAME, 'body')
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
+    for _ in range(5):
+        be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.UP)
-    be.send_keys(Keys.UP)
-    be.send_keys(Keys.UP)
-    be.send_keys(Keys.UP)
+    for _ in range(4):
+        be.send_keys(Keys.UP)
     for _ in range(Num):
         be.send_keys(Keys.DOWN)
     be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
+    for _ in range(3):
+        be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
     time.sleep(1)
-
     # Find song details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
-    
     fe = soup.find(attrs={"class": "view-live-now popup"})
     if fe is not None:
-        fe2 = fe.get_text(separator="*", strip=True)
-        fe3 = fe2.split("*")
-        print(fe3[0])
-        
+        fe1 = fe.get_text(separator="*", strip=True)
+    else:
+        fe1 = "None"
     fe = soup.find(attrs={"class": "playingNow"})
     if fe is not None:
         fe2 = fe.get_text(separator="*", strip=True)
-        fe3 = fe2.split("*")
-        print(fe3)
     else:
-        fe3 = "No specific item playing"
-        print(fe3)
-    time.sleep(3)
+        fe2 = "No specific item playing"
+    fe3 = fe1+"*"+fe2
+    print(fe3)
+    time.sleep(1)
+    return fe3
+
+
+def Radio4(br,sPath):
+#    br.refresh()
+    br.get(sPath)
+    time.sleep(1)
+    be = br.find_element(By.TAG_NAME, 'body')
+    be.send_keys(Keys.TAB)
+    be.send_keys(Keys.ENTER)
+    for _ in range(3):
+        be.send_keys(Keys.TAB)
+    # adjust amount of tabbing depending on where you end up!
+    focused_element = br.execute_script("return document.activeElement")
+    if not("Button_btn___qFSk" in focused_element.get_attribute('class')):
+           be.send_keys(Keys.SHIFT,Keys.TAB)
+    be.send_keys(Keys.ENTER)
+    be.send_keys(Keys.SHIFT,Keys.TAB)
+    be.send_keys(Keys.TAB)
+    be.send_keys(Keys.TAB)
+    time.sleep(1)
+    # Find song details
+    ht = be.get_attribute('innerHTML')
+    soup = BeautifulSoup(ht, 'lxml')
+    fe = soup.find(attrs={"class": "LiveAudioPlayer_body__y6nYe"})
+    if fe is not None:
+        fe2 = fe.get_text(separator="*", strip=True)
+        #fe3 = fe2.split("*")
+    else:
+        fe2 = "No item playing"
+    #print(fe2)
+    time.sleep(1)
+    return fe2
+
+    
+def Radio5(br,Num,sPath):
+#    browser.refresh()
+    browser.get(sPath)
+    time.sleep(1)
+    be = br.find_element(By.TAG_NAME, 'body')
+    be.send_keys(Keys.TAB)
+    be.send_keys(Keys.ENTER)
+    for _ in range(Num):
+        be.send_keys(Keys.TAB)
+    be.send_keys(Keys.ENTER)
+    be.send_keys(Keys.TAB)
+    be.send_keys(Keys.TAB)
+    time.sleep(1)
+# Find song details
+    ht = be.get_attribute('innerHTML')
+    soup = BeautifulSoup(ht, 'lxml')
+    fe = soup.find(attrs={"class": "LiveAudioPlayer_body__y6nYe"})
+    if fe is not None:
+        fe2 = fe.get_text(separator="*", strip=True)
+        #fe3 = fe2.split("*")
+    else:
+        fe2 = "No item playing"
+    print(fe2)
+    time.sleep(1)
+    return fe2
 
 
 
@@ -279,69 +270,6 @@ def Smooth2(br,sPath):
     window_size = br.get_window_size()
     time.sleep(10)
 
-def ABC_radio2(br,sPath):
-    br.refresh()
-    br.get(sPath)
-    time.sleep(3)
-    be = br.find_element(By.TAG_NAME, 'body')
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    
-    # get the class name of the focused element
-    focused_element = br.execute_script("return document.activeElement")
-
-    # adjust amount of tabbing depending on where you end up!
-    # this is just a quirk of the website, that varies with the type
-    # of steaming content.
-    if not("Button_btn___qFSk" in focused_element.get_attribute('class')):
-           be.send_keys(Keys.SHIFT,Keys.TAB)
-
-    be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.SHIFT,Keys.TAB)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    time.sleep(1)
-
-    # Find song details
-    ht = be.get_attribute('innerHTML')
-    soup = BeautifulSoup(ht, 'lxml')
-    fe = soup.find(attrs={"class": "LiveAudioPlayer_body__y6nYe"})
-    if fe is not None:
-        fe2 = fe.get_text(separator="*", strip=True)
-        fe3 = fe2.split("*")
-    else:
-        fe3 = "No item playing"
-    print(fe3)
-    time.sleep(3)
-    
-    
-def ABC_radio3(br,Num,sPath):
- #   print(inspect.stack()[1].function)
-    browser.refresh()
-    browser.get(sPath)
-    time.sleep(3)
-    be = br.find_element(By.TAG_NAME, 'body')
-    for _ in range(Num):
-        be.send_keys(Keys.TAB)
-    be.send_keys(Keys.ENTER)
-    be.send_keys(Keys.TAB)
-    be.send_keys(Keys.TAB)
-    time.sleep(1)
-
-# Find song details
-    ht = be.get_attribute('innerHTML')
-    soup = BeautifulSoup(ht, 'lxml')
-    fe = soup.find(attrs={"class": "LiveAudioPlayer_body__y6nYe"})
-    if fe is not None:
-        fe2 = fe.get_text(separator="*", strip=True)
-        fe3 = fe2.split("*")
-    else:
-        fe3 = "No item playing"
-    print(fe3)
-    time.sleep(3)
 
 
 def iHeart(br,sPath):
@@ -358,97 +286,97 @@ def iHeart(br,sPath):
     
 
 def ABC_Radio_SYDNEY():
-    ABC_radio2(browser,"https://www.abc.net.au/listen/live/sydney")
+    return Radio4(browser,"https://www.abc.net.au/listen/live/sydney")
 
     
 def ABC_Radio_National_LIVE():
-    Radio2(browser,0,"https://www.abc.net.au/listen/live/radionational")
+    return Radio2(browser,0,"https://www.abc.net.au/listen/live/radionational")
 
 def ABC_Radio_National_QLD():
-    Radio2(browser,1,"https://www.abc.net.au/listen/live/radionational")
+    return Radio2(browser,1,"https://www.abc.net.au/listen/live/radionational")
 
 def ABC_Radio_National_WA():
-    Radio2(browser,2,"https://www.abc.net.au/listen/live/radionational")
+    return Radio2(browser,2,"https://www.abc.net.au/listen/live/radionational")
 
 def ABC_Radio_National_SA():
-    Radio2(browser,3,"https://www.abc.net.au/listen/live/radionational")
+    return Radio2(browser,3,"https://www.abc.net.au/listen/live/radionational")
 
 def ABC_Radio_National_NT():
-    Radio2(browser,4,"https://www.abc.net.au/listen/live/radionational")
+    return Radio2(browser,4,"https://www.abc.net.au/listen/live/radionational")
 
     
 def ABC_NewsRadio():
-    ABC_radio2(browser,"https://www.abc.net.au/listen/live/news")
+    return Radio4(browser,"https://www.abc.net.au/listen/live/news")
 
     
 def ABC_Classic_LIVE():
-    Radio3(browser,0,"https://www.abc.net.au/listen/live/classic")
+    return Radio3(browser,0,"https://www.abc.net.au/listen/live/classic")
 
 def ABC_Classic_QLD():
-    Radio3(browser,1,"https://www.abc.net.au/listen/live/classic")
+    return Radio3(browser,1,"https://www.abc.net.au/listen/live/classic")
 
 def ABC_Classic_WA():
-    Radio3(browser,2,"https://www.abc.net.au/listen/live/classic")
+    return Radio3(browser,2,"https://www.abc.net.au/listen/live/classic")
 
 def ABC_Classic_SA():
-    Radio3(browser,3,"https://www.abc.net.au/listen/live/classic")
+    return Radio3(browser,3,"https://www.abc.net.au/listen/live/classic")
 
 def ABC_Classic_NT():
-    Radio3(browser,4,"https://www.abc.net.au/listen/live/classic")
+    return Radio3(browser,4,"https://www.abc.net.au/listen/live/classic")
 
 
 def ABC_Classic2():
-    Radio1(browser,7,"https://www.abc.net.au/listen/live/classic2")
+    return Radio1(browser,7,"https://www.abc.net.au/listen/live/classic2")
     
 def ABC_Jazz():
-    Radio1(browser,7,"https://www.abc.net.au/listen/live/jazz")
+    return Radio1(browser,7,"https://www.abc.net.au/listen/live/jazz")
 
     
 def ABC_triple_j_LIVE():
-    Radio3(browser,0,"https://www.abc.net.au/listen/live/triplej")
+    return Radio3(browser,0,"https://www.abc.net.au/listen/live/triplej")
 
 def ABC_triple_j_QLD():
-    Radio3(browser,1,"https://www.abc.net.au/listen/live/triplej")
+    return Radio3(browser,1,"https://www.abc.net.au/listen/live/triplej")
 
 def ABC_triple_j_WA():
-    Radio3(browser,2,"https://www.abc.net.au/listen/live/triplej")
+    return Radio3(browser,2,"https://www.abc.net.au/listen/live/triplej")
 
 def ABC_triple_j_SA():
-    Radio3(browser,3,"https://www.abc.net.au/listen/live/triplej")
+    return Radio3(browser,3,"https://www.abc.net.au/listen/live/triplej")
 
 def ABC_triple_j_NT():
-    Radio3(browser,4,"https://www.abc.net.au/listen/live/triplej")
+    return Radio3(browser,4,"https://www.abc.net.au/listen/live/triplej")
 
 
     
 def ABC_Double_j_LIVE():
-    Radio3(browser,0,"https://www.abc.net.au/listen/live/doublej")
+    return Radio3(browser,0,"https://www.abc.net.au/listen/live/doublej")
 
 def ABC_Double_j_QLD():
-    Radio3(browser,1,"https://www.abc.net.au/listen/live/doublej")
+    return Radio3(browser,1,"https://www.abc.net.au/listen/live/doublej")
 
 def ABC_Double_j_WA():
-    Radio3(browser,2,"https://www.abc.net.au/listen/live/doublej")
+    return Radio3(browser,2,"https://www.abc.net.au/listen/live/doublej")
 
 def ABC_Double_j_SA():
-    Radio3(browser,3,"https://www.abc.net.au/listen/live/doublej")
+    return Radio3(browser,3,"https://www.abc.net.au/listen/live/doublej")
 
 def ABC_Double_j_NT():
-    Radio3(browser,4,"https://www.abc.net.au/listen/live/doublej")
+    return Radio3(browser,4,"https://www.abc.net.au/listen/live/doublej")
 
 
     
 def ABC_triple_j_Unearthed():
-    Radio1(browser,7,"https://www.abc.net.au/triplej/live/unearthed")
+    return Radio1(browser,7,"https://www.abc.net.au/triplej/live/unearthed")
     
 def ABC_triple_j_Hottest():
-    Radio1(browser,7,"https://www.abc.net.au/triplej/live/triplejhottest")
+    return Radio1(browser,7,"https://www.abc.net.au/triplej/live/triplejhottest")
     
 def ABC_Country():
-    ABC_radio3(browser,3,"https://www.abc.net.au/listen/live/country#content")
+    return Radio5(browser,3,"https://www.abc.net.au/listen/live/country")
     
 def ABC_Radio_AUSTRALIA():
-    ABC_radio3(browser,14,"https://www.abc.net.au/pacific/live")
+    return Radio5(browser,3,"https://www.abc.net.au/pacific/live")
 
     
 def KIIS1065():
@@ -543,17 +471,58 @@ aStation = [
     
     ["ABC Radio AUSTRALIA",ABC_Radio_AUSTRALIA]
 ]
-'''
+
+
+def on_select(event):
+    selected_value = combobox.get()
+    selected_index = combobox.current()
+    print("Selected:", selected_value)
+    print("Index:", selected_index)
+    text = aStation[selected_index][1]();
+    print(text)
+    text_rows = text.split("*")
+    # Make text box editable, so contents can be deleted and rewritten
+    text_box.config(state=tk.NORMAL)
+    text_box.delete('1.0', tk.END)
+    print(text_rows)
+    # Insert each row of text into the text box
+    for row in text_rows:
+        text_box.insert(tk.END, row + "\n")
+    # Disable the text box to make it read-only
+    text_box.config(state=tk.DISABLED)
+    print("")
+
+
+# Create the main window
+root = tk.Tk()
+root.title("Internet Radio Application")  # Title of the window
+
+# Set window size
+root.geometry("400x300")  # Width x Height
+
+# Create a combobox (dropdown list)t
+aStringArray = []
+for element in aStation:
+    aStringArray.append(element[0])
+combobox = ttk.Combobox(root, values=aStringArray, width=25)
+combobox.pack(pady=10)
+
+# Bind the combobox selection event to the on_select function
+combobox.bind("<<ComboboxSelected>>", on_select)
+
+# Create a text box and position it using grid
+text_box = tk.Text(root, height=10, width=40)
+text_box.pack(pady=10)
+
+# Enable the text box to insert text
+text_box.config(state=tk.NORMAL)
+
+
+# Run the application
+root.mainloop()
 
 print("Radio stream interface")
 
-#ABC_triple_j_LIVE();
-
-
-for station in aStation:
-    print(f"Station: {station[0]}")
-    station[1]();
-    time.sleep(5);
 
 '''
 smoothfm_953_Sydney() ;time.sleep(60)
