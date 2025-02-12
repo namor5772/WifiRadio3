@@ -3,6 +3,7 @@ import inspect
 import tkinter as tk
 import time
 import urllib.request
+import requests
 
 from PIL import Image, ImageTk
 from tkinter import ttk
@@ -10,6 +11,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,6 +23,7 @@ firefox_options = Options()
 browser = webdriver.Firefox(options=firefox_options)
 
 image_path = r"C:\Users\grobl\OneDrive\GitRepos\WifiRadio3\Images\logo.png"
+image2_path = r"C:\Users\grobl\OneDrive\GitRepos\WifiRadio3\Images\presenter.jpg"
 
 
 
@@ -50,7 +53,6 @@ def Suck_ABC(br,sPath):
     be.send_keys(Keys.TAB)
     be.send_keys(Keys.TAB)
 
-
     # Use JavaScript to get the currently focused (active) element
     active_element = br.execute_script("return document.activeElement")
 
@@ -75,7 +77,6 @@ def Suck_ABC(br,sPath):
     be.send_keys(Keys.ENTER)
     time.sleep(1)
     be = br.find_element(By.TAG_NAME, 'body')
-
 
     for _ in range(14):
         be.send_keys(Keys.TAB)
@@ -122,6 +123,31 @@ def Radio2(br,Num,sPath):
         be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
     time.sleep(1)
+
+  # get station logo
+    # Display the station logo as given in the image_path2 variable below
+    image_path2 = r"C:\Users\grobl\OneDrive\GitRepos\WifiRadio3\Images\ABC_Radio_National.png"
+    image = Image.open(image_path2)
+    scaled_image = image.resize((90, 90))  # Adjust the size as needed
+    photo = ImageTk.PhotoImage(scaled_image)
+    label.config(image=photo)
+    label.image = photo  # Keep a reference to avoid garbage collection
+
+  # get presenter image
+    img2_element = be.find_element(By.XPATH, '/html/body/div[1]/div/div/div/main/div[1]/div/div/header/div/div/img')
+    img2_url = img2_element.get_attribute("src")
+    urllib.request.urlretrieve(img2_url, image2_path)
+
+    # Display the station presenter as given in the image2_path global variable
+    image2 = Image.open(image2_path)
+    width2, height2 = image2.size;
+    print(f"width: {width2}, height: {height2}")
+    scaled_image2 = image2.resize((int(135*width2/height2), 135))  # Adjust the size as needed
+    photo2 = ImageTk.PhotoImage(scaled_image2)
+    label2.config(image=photo2)
+    label2.image = photo2  # Keep a reference to avoid garbage collection
+    label2.place(x=339, y=107)  # Adjust the position
+    
   # Find stream details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
@@ -136,6 +162,7 @@ def Radio2(br,Num,sPath):
     if pos != -1:
         fe2 = fe2[:pos]
     return fe2
+
 
 # ALL GOOD
 def Radio3(br,Num,sPath):
@@ -154,7 +181,49 @@ def Radio3(br,Num,sPath):
         be.send_keys(Keys.TAB)
     be.send_keys(Keys.ENTER)
     time.sleep(1)
-    # Find program details
+
+    stack = inspect.stack()
+    print("--")
+    print(inspect.currentframe().f_code.co_name)
+    print(stack[0].function)
+    print(stack[1].function)
+    print(stack[2].function)
+    print(stack[3].function)
+    print("--")
+    
+  # get station logo
+    # Display the station logo as given in the image_path2 variable below
+    image_path2 = r"C:\Users\grobl\OneDrive\GitRepos\WifiRadio3\Images\ABC_triple_j.png"
+    image = Image.open(image_path2)
+    scaled_image = image.resize((90, 90))  # Adjust the size as needed
+    photo = ImageTk.PhotoImage(scaled_image)
+    label.config(image=photo)
+    label.image = photo  # Keep a reference to avoid garbage collection
+
+  # get program image
+    try:      
+        img2_element = be.find_element(By.XPATH, '/html/body/div[1]/div/div/div/main/div[1]/div/div/div[3]/div[1]/div/div[2]/div[2]/img')
+        img2_url = img2_element.get_attribute("src")
+        #response = requests.head(img2_url)
+        image2_path = r"C:\Users\grobl\OneDrive\GitRepos\WifiRadio3\Images\presenter.jpg"
+        urllib.request.urlretrieve(img2_url, image2_path)
+    except NoSuchElementException:
+        print("Image element not found on the webpage.")            
+        # Display a blank image
+        image2_path = r"C:\Users\grobl\OneDrive\GitRepos\WifiRadio3\Images\Blank.png"
+    # Display the program image as given in the image2_path global variable
+    image2 = Image.open(image2_path)
+    width2, height2 = image2.size;
+    print(f"width: {width2}, height: {height2}")
+    crop_box2 = (width2-height2,0,width2,height2)
+    cropped_image2 = image2.crop(crop_box2)
+    scaled_image2 = cropped_image2.resize((135, 135))  # Adjust the size as needed
+    photo2 = ImageTk.PhotoImage(scaled_image2)
+    label2.config(image=photo2)
+    label2.image = photo2  # Keep a reference to avoid garbage collection
+    label2.place(x=455, y=107)  # Adjust the position
+
+  # Find program details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
     fe = soup.find(attrs={"class": "view-live-now popup"})
@@ -176,6 +245,7 @@ def Radio3(br,Num,sPath):
     fe3 = fe1+"*"+fe2
     return fe3
 
+
 # ALL GOOD
 def Radio4(br,sPath):
     br.get(sPath)
@@ -185,30 +255,49 @@ def Radio4(br,sPath):
     be.send_keys(Keys.ENTER)
     for _ in range(3):
         be.send_keys(Keys.TAB)
-    # adjust amount of tabbing depending on where you end up!
+        
+  # adjust amount of tabbing depending on where you end up!
     focused_element = br.execute_script("return document.activeElement")
     if not("Button_btn___qFSk" in focused_element.get_attribute('class')):
            be.send_keys(Keys.SHIFT,Keys.TAB)
+           print("ADJUSTED TAB")
     be.send_keys(Keys.ENTER)
     be.send_keys(Keys.SHIFT,Keys.TAB)
     be.send_keys(Keys.TAB)
     be.send_keys(Keys.TAB)
     time.sleep(3)
-    # get station logo
     
-    # Locate the image element by XPath
+  # get station logo
     img_element = be.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div/main/div[1]/div/div/div/a/div/img')
-
-    # Get the image URL
     img_url = img_element.get_attribute("src")
-
-    # Download the image
     urllib.request.urlretrieve(img_url, image_path)
 
+    # Display the station logo as given in the image_path global variable
+    image = Image.open(image_path)
+    scaled_image = image.resize((90, 90))  # Adjust the size as needed
+    photo = ImageTk.PhotoImage(scaled_image)
+    label.config(image=photo)
+    label.image = photo  # Keep a reference to avoid garbage collection
+   
+  # get presenter image
+    img2_element = be.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div/main/div[1]/div/div/div/div[1]/div[1]/div/div/div/img')
+    img2_url = img2_element.get_attribute("src")
+    urllib.request.urlretrieve(img2_url, image2_path)
 
-
+    # Display the station presenter as given in the image2_path global variable
+    # cropping and scaling
+    image2 = Image.open(image2_path)
+    width2, height2 = image2.size;
+    print(f"width: {width2}, height: {height2}")
+    crop_box2 = (width2-height2,0,width2,height2)
+    cropped_image2 = image2.crop(crop_box2)
+    scaled_image2 = cropped_image2.resize((135, 135))  # Adjust the size as needed
+    photo2 = ImageTk.PhotoImage(scaled_image2)
+    label2.config(image=photo2)
+    label2.image = photo2  # Keep a reference to avoid garbage collection
+    label2.place(x=155, y=107)  # Adjust the position
     
-    # Find live program details
+  # Find live program details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
     fe = soup.find(attrs={"class": "LiveAudioPlayer_body__y6nYe"})
@@ -219,13 +308,16 @@ def Radio4(br,sPath):
     # Remove irrelevant info [*-]
     sub = "*-"
     fe3 = fe2.replace(sub,"")
-    # Find live program synopsis
+    
+  # Find live program synopsis
     fe = soup.find(attrs={"class": "LiveAudioSynopsis_content__DZ6E7"})
     if fe is not None:
         fe2 = fe.get_text(separator="*", strip=True)
     else:
         fe2 = "No Description"
-    fe3 = fe3+"*"+fe2+"*"+image_path
+        
+  # Return info text      
+    fe3 = fe3+"* * *"+fe2
     return fe3
 
 
@@ -242,6 +334,37 @@ def Radio5(br,Num,sPath):
     be.send_keys(Keys.TAB)
     be.send_keys(Keys.TAB)
     time.sleep(1)
+
+  # get station logo
+    img_element = be.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div/main/div[1]/div/div/div/a/div/img')
+    img_url = img_element.get_attribute("src")
+    urllib.request.urlretrieve(img_url, image_path)
+
+    # Display the station logo as given in the image_path global variable
+    image = Image.open(image_path)
+    scaled_image = image.resize((90, 90))  # Adjust the size as needed
+    photo = ImageTk.PhotoImage(scaled_image)
+    label.config(image=photo)
+    label.image = photo  # Keep a reference to avoid garbage collection
+
+  # get presenter image
+    img2_element = be.find_element(By.XPATH, '/html/body/div[1]/div/div/div[1]/div/main/div[1]/div/div/div/div[1]/div[1]/div/div/div/img')
+    img2_url = img2_element.get_attribute("src")
+    urllib.request.urlretrieve(img2_url, image2_path)
+
+    # Display the station presenter as given in the image2_path global variable
+    # cropping and scaling
+    image2 = Image.open(image2_path)
+    width2, height2 = image2.size;
+    print(f"width: {width2}, height: {height2}")
+    crop_box2 = (width2-height2,0,width2,height2)
+    cropped_image2 = image2.crop(crop_box2)
+    scaled_image2 = cropped_image2.resize((135, 135))  # Adjust the size as needed
+    photo2 = ImageTk.PhotoImage(scaled_image2)
+    label2.config(image=photo2)
+    label2.image = photo2  # Keep a reference to avoid garbage collection
+    label2.place(x=445, y=107)  # Adjust the position
+
     # Find song details
     ht = be.get_attribute('innerHTML')
     soup = BeautifulSoup(ht, 'lxml')
@@ -254,6 +377,7 @@ def Radio5(br,Num,sPath):
     sub = "*-"
     fe3 = fe2.replace(sub,"")
     return fe3
+
 
 def Radio6(br,sPath):
     br.get(sPath)
@@ -426,13 +550,9 @@ def ABC_Radio_Darwin_NT():
 def ABC_Alice_Springs_NT():
     return Radio4(browser,"https://www.abc.net.au/listen/live/alicesprings")
 
-def ABC__NT():
-    return Radio4(browser,"https://www.abc.net.au/listen/live/")
-
-
-
 def ABC_NewsRadio():
     return Radio4(browser,"https://www.abc.net.au/listen/live/news")
+
 
     
 def ABC_Radio_National_LIVE():
@@ -449,6 +569,7 @@ def ABC_Radio_National_SA():
 
 def ABC_Radio_National_NT():
     return Radio2(browser,4,"https://www.abc.net.au/listen/live/radionational")
+
 
 
 def ABC_triple_j_LIVE():
@@ -661,52 +782,43 @@ def on_select(event):
     text_box.config(state=tk.DISABLED)
     print("")
 
-    image = Image.open(image_path)
-
-    # Scale the image
-    scaled_image = image.resize((200, 200))  # Adjust the size as needed
-
-    # Convert the image to a format Tkinter can use
-    photo = ImageTk.PhotoImage(scaled_image)
-
-    # Create a Label to display the image
-    label = tk.Label(root, image=photo)
-    label.image = photo  # Keep a reference to avoid garbage collection
-
-    # Set the position of the image
-    label.place(x=18, y=400)  # Adjust the position as needed    
-    
-    
-
 
 # Create the main window
 root = tk.Tk()
 root.title("INTERNET RADIO 3.0")  # Title of the window
 
 # Set window size
-root.geometry("794x700")  # Width x Height
+root.geometry("600x450")  # Width x Height
 
-#"794x390"
+# Fix the size of the window so it cannot be resized
+root.resizable(False, False)  # Disable resizing in both directions
 
 # Create a combobox (dropdown list)t
 aStringArray = []
 for element in aStation:
     aStringArray.append(element[0])
 combobox = ttk.Combobox(root, values=aStringArray, width=33)
-combobox.pack(pady=10)
+combobox.pack(anchor='nw', padx=155, pady=35)
 
 # Bind the combobox selection event to the on_select function
 combobox.bind("<<ComboboxSelected>>", on_select)
 
 # Create a text box and position it using grid
-text_box = tk.Text(root, height=20, width=95)
-text_box.pack(pady=10)
+text_box = tk.Text(root, height=22, width=90)
+text_box.pack(anchor='nw', padx=15, pady=15)
 
 # Enable the text box to insert text
 text_box.config(state=tk.NORMAL)
 
-
+label = tk.Label(root)
+label.pack()
+label.place(x=20, y=0)  # Adjust the position
     
+label2 = tk.Label(root)
+label2.pack()
+#label2.place(x=155, y=107)  # Adjust the position
+
+
 
 # Run the application
 root.mainloop()
